@@ -13,6 +13,7 @@ def setup_db(app,database_name):
     app.config.from_pyfile('config.py')
     app.config['SQLALCHEMY_DATABASE_URI'] += database_name
     moment = Moment(app)
+    db.app = app
     db.init_app(app)
     # create instance migrate for data migration
     migrate = Migrate(app, db, compare_type=True)
