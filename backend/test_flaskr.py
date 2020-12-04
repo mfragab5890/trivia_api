@@ -40,6 +40,14 @@ class TriviaTestCase(unittest.TestCase):
         self.category_2 = {
             'category': 10
         }
+        self.quiz_1 = {
+            'previous_question':[20],
+            'category': 1
+        }
+        self.quiz_2 = {
+            'previous_question': [ 20 ],
+            'category': 10
+        }
 
         # binds the app to the current context
         with self.app.app_context():
@@ -177,7 +185,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data[ 'success' ], False)
         self.assertEqual(data[ 'message' ], 'Unprocessable!!! : The request was well-formed but was unable to be followed')
 
-    # test search question by category and return results
+    # test get questions by category and return results
     def test_get_user_category_question(self):
         """ Test if query category questions return results successfully """
         res = self.client().post('category/questions', json=self.category_1)
@@ -187,8 +195,9 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data[ 'success' ], True)
         self.assertTrue(data[ 'total_category_questions' ])
         self.assertTrue(len(data[ 'questions' ]))
+        self.assertTrue(data[ 'current_category' ])
 
-    # test searching question with invalid category will raise an error
+    # test get questions with invalid category will raise an error
     def test_error_searching_user_question(self):
         """Test if user search a category that don't exist will cause an error """
         res = self.client().post('category/questions', json=self.category_2)
@@ -198,6 +207,29 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data[ 'success' ], False)
         self.assertEqual(data[ 'message' ],
                          'Not found!!! : please check your Data or maybe your request is currently not available.')
+
+    # test get quiz question by category and return results
+    def test_get_quiz_category_questions(self):
+        """ Test if query a category return questions with no duplication for quiz """
+        res = self.client().post('category/quiz/questions', json=self.quiz_1)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data[ 'success' ], True)
+        self.assertTrue(data[ 'total_category_questions' ])
+        self.assertTrue(len(data[ 'question' ]))
+
+    # test get quiz question with invalid category will raise an error
+    def test_error_get_user_quiz_question(self):
+        """Test if user search a category that don't exist will cause an error """
+        res = self.client().post('category/quiz/questions', json=self.quiz_2)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data[ 'success' ], False)
+        self.assertEqual(data[ 'message' ],
+                         'Not found!!! : please check your Data or maybe your request is currently not available.')
+
 
 
 # Make the tests conveniently executable

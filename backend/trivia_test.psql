@@ -21,23 +21,12 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: alembic_version; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.alembic_version (
-    version_num character varying(32) NOT NULL
-);
-
-
-ALTER TABLE public.alembic_version OWNER TO postgres;
-
---
 -- Name: categories; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.categories (
     id integer NOT NULL,
-    type character varying
+    type text
 );
 
 
@@ -71,10 +60,10 @@ ALTER SEQUENCE public.categories_id_seq OWNED BY public.categories.id;
 
 CREATE TABLE public.questions (
     id integer NOT NULL,
-    question character varying,
-    answer character varying,
-    category integer NOT NULL,
-    difficulty integer
+    question text,
+    answer text,
+    difficulty integer,
+    category integer
 );
 
 
@@ -117,15 +106,6 @@ ALTER TABLE ONLY public.questions ALTER COLUMN id SET DEFAULT nextval('public.qu
 
 
 --
--- Data for Name: alembic_version; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.alembic_version (version_num) FROM stdin;
-2bc5a421cb06
-\.
-
-
---
 -- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -136,8 +116,6 @@ COPY public.categories (id, type) FROM stdin;
 4	History
 5	Entertainment
 6	Sports
-7	technology
-8	Not Assigned
 \.
 
 
@@ -145,31 +123,42 @@ COPY public.categories (id, type) FROM stdin;
 -- Data for Name: questions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.questions (id, question, answer, category, difficulty) FROM stdin;
-5	Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?	Maya Angelou	4	2
-9	What boxer's original name is Cassius Clay?	Muhammad Ali	4	1
-2	What movie earned Tom Hanks his third straight Oscar nomination, in 1996?	Apollo 13	5	4
-4	What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?	Tom Cruise	5	4
-6	What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?	Edward Scissorhands	5	3
-10	Which is the only team to play in every soccer World Cup tournament?	Brazil	6	3
-11	Which country won the first ever soccer World Cup in 1930?	Uruguay	6	4
-12	Who invented Peanut Butter?	George Washington Carver	4	2
-13	What is the largest lake in Africa?	Lake Victoria	3	2
+COPY public.questions (id, question, answer, difficulty, category) FROM stdin;
+9	What boxer's original name is Cassius Clay?	Muhammad Ali	1	4
+4	What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?	Tom Cruise	4	5
+6	What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?	Edward Scissorhands	3	5
+10	Which is the only team to play in every soccer World Cup tournament?	Brazil	3	6
+11	Which country won the first ever soccer World Cup in 1930?	Uruguay	4	6
+12	Who invented Peanut Butter?	George Washington Carver	2	4
+13	What is the largest lake in Africa?	Lake Victoria	2	3
 14	In which royal palace would you find the Hall of Mirrors?	The Palace of Versailles	3	3
-15	The Taj Mahal is located in which Indian city?	Agra	3	2
-16	Which Dutch graphic artist?initials M C was a creator of optical illusions?	Escher	2	1
-17	La Giaconda is better known as what?	Mona Lisa	2	3
-18	How many paintings did Van Gogh sell in his lifetime?	One	2	4
+15	The Taj Mahal is located in which Indian city?	Agra	2	3
+16	Which Dutch graphic artist–initials M C was a creator of optical illusions?	Escher	1	2
+17	La Giaconda is better known as what?	Mona Lisa	3	2
+18	How many paintings did Van Gogh sell in his lifetime?	One	4	2
 19	Which American artist was a pioneer of Abstract Expressionism, and a leading exponent of action painting?	Jackson Pollock	2	2
-20	What is the heaviest organ in the human body?	The Liver	1	4
-21	Who discovered penicillin?	Alexander Fleming	1	3
-22	Hematology is a branch of medicine involving the study of what?	Blood	1	4
+20	What is the heaviest organ in the human body?	The Liver	4	1
+21	Who discovered penicillin?	Alexander Fleming	3	1
+22	Hematology is a branch of medicine involving the study of what?	Blood	4	1
 23	Which dung beetle was worshipped by the ancient Egyptians?	Scarab	4	4
-3	what about technology	what about it!	7	0
-7	what about technology	what about it!	7	0
-8	what about technology	what about it!	7	0
-24	what about technology	what about it!	7	0
-25	what about technology	what about it!	7	0
+25	the question	the answer	\N	1
+28	the question	the answer	\N	1
+2	the question	the answer	\N	1
+31	the question	the answer	\N	1
+36	the question	the answer	\N	1
+37	the question	the answer	\N	1
+38	the question	the answer	\N	1
+39	the question	the answer	\N	1
+42	who won the us elections 2020?	Joe Biden	3	4
+43	who won the us elections 2020?	Joe Biden	3	4
+44	who won the us elections 2020?	Joe Biden	3	\N
+45	who won the us elections 2020?	Joe Biden	3	\N
+46	who won the us elections 2020?	Joe Biden	3	4
+47	who won the us elections 2020?	Joe Biden	3	4
+48	who won the us elections 2020?	Joe Biden	3	4
+49	who won the us elections 2020?	Joe Biden	3	4
+50	who won the us elections 2020?	Joe Biden	3	4
+1	the question	the answer	\N	1
 \.
 
 
@@ -177,22 +166,14 @@ COPY public.questions (id, question, answer, category, difficulty) FROM stdin;
 -- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.categories_id_seq', 8, true);
+SELECT pg_catalog.setval('public.categories_id_seq', 6, true);
 
 
 --
 -- Name: questions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.questions_id_seq', 25, true);
-
-
---
--- Name: alembic_version alembic_version_pkc; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.alembic_version
-    ADD CONSTRAINT alembic_version_pkc PRIMARY KEY (version_num);
+SELECT pg_catalog.setval('public.questions_id_seq', 50, true);
 
 
 --
@@ -212,11 +193,11 @@ ALTER TABLE ONLY public.questions
 
 
 --
--- Name: questions questions_category_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: questions category; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.questions
-    ADD CONSTRAINT questions_category_fkey FOREIGN KEY (category) REFERENCES public.categories(id);
+    ADD CONSTRAINT category FOREIGN KEY (category) REFERENCES public.categories(id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 
 --

@@ -245,6 +245,51 @@ def create_app(test_config=None):
         else:
             abort(404)
 
+    # quiz game takes category and previous questions if exist and send next question
+    @app.route('/category/quiz/questions', methods=[ 'POST' ])
+    def get_quiz_questions_per_category():
+        # check if category & previous questions is sent in request
+        body = request.get_json()
+        category = body.get('category', None)
+        previous_questions = body.get('previous_questions', [])
+
+        if category is not None:
+            current_category_data = Category.query.get(category)
+            if current_category_data is not None:
+                current_category = current_category_data.type
+            else:
+                abort(404)
+            all_questions = Question.query.filter(Question.category == category).all()
+            formatted_questions = [question.format() for question in all_questions]
+            if formatted_questions is not None:
+                all_questions_id = []
+                for ques in formatted_questions:
+                    all_questions_id.append(ques['id'])
+                quiz_question_id = 0
+                while quiz_question_id == 0:
+                    random_question = random.choice(all_questions_id)
+                    if str(random_question) not in previous_questions:
+                        quiz_question_id = random_question
+                    else:
+                        continue
+                quiz_question = Question.query.filter_by(id=quiz_question_id).one_or_none()
+                quiz_question_formatted = quiz_question.format()
+                if quiz_question:
+                    return jsonify({
+                        'success': True,
+                        'question': quiz_question_formatted,
+                        'total_category_questions': len(formatted_questions),
+                        'current_category': current_category,
+                    })
+
+                else:
+                    abort(404)
+
+            else:
+                abort(404)
+        else:
+            abort(404)
+
 
     # ----------------------------------------------------------------------------#
     # Error Handlers.
