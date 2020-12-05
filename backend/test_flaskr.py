@@ -29,10 +29,10 @@ class TriviaTestCase(unittest.TestCase):
             'difficulty': 3,
         }
         self.search_1 = {
-            'search_term': 'a'
+            'searchTerm': 'a'
         }
         self.search_2 = {
-            'search_term': 'Pneumonoultramicroscopicsilicovolcanoconiosis'
+            'searchTerm': 'Pneumonoultramicroscopicsilicovolcanoconiosis'
         }
         self.category_1 = {
             'category': 1
@@ -47,6 +47,10 @@ class TriviaTestCase(unittest.TestCase):
         self.quiz_2 = {
             'previous_question': [ 20 ],
             'category': 10
+        }
+        self.quiz_3 = {
+            'previous_question': [ 20 ],
+            'category': 'All'
         }
 
         # binds the app to the current context
@@ -208,10 +212,21 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data[ 'message' ],
                          'Not found!!! : please check your Data or maybe your request is currently not available.')
 
-    # test get quiz question by category and return results
+    # test get quiz question by any category and return results
     def test_get_quiz_category_questions(self):
         """ Test if query a category return questions with no duplication for quiz """
         res = self.client().post('category/quiz/questions', json=self.quiz_1)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data[ 'success' ], True)
+        self.assertTrue(data[ 'total_category_questions' ])
+        self.assertTrue(len(data[ 'question' ]))
+
+    # test get quiz question by all category and return results
+    def test_get_quiz_all_categories_questions(self):
+        """ Test if query return questions with no duplication for quiz of all categories """
+        res = self.client().post('category/quiz/questions', json=self.quiz_3)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)

@@ -191,7 +191,7 @@ def create_app(test_config=None):
     @app.route('/questions/search', methods=[ 'POST' ])
     def search_question():
         body = request.get_json()
-        search_term = body.get('search_term', None)
+        search_term = body.get('searchTerm', None)
 
         search_term_formatted = '%' + search_term + '%'
         try:
@@ -254,12 +254,16 @@ def create_app(test_config=None):
         previous_questions = body.get('previous_questions', [])
 
         if category is not None:
-            current_category_data = Category.query.get(category)
-            if current_category_data is not None:
-                current_category = current_category_data.type
+            if category != 'All':
+                current_category_data = Category.query.get(category)
+                if current_category_data is not None:
+                    current_category = current_category_data.type
+                    all_questions = Question.query.filter(Question.category == category).all()
+                else:
+                    abort(404)
             else:
-                abort(404)
-            all_questions = Question.query.filter(Question.category == category).all()
+                current_category = 'All'
+                all_questions = Question.query.order_by('category').all()
             formatted_questions = [question.format() for question in all_questions]
             if formatted_questions is not None:
                 all_questions_id = []
@@ -335,17 +339,6 @@ def create_app(test_config=None):
         }), 500
 
 
-    '''
-  @TODO: 
-  Create a POST endpoint to get questions to play the quiz. 
-  This endpoint should take category and previous question parameters 
-  and return a random questions within the given category, 
-  if provided, and that is not one of the previous questions. 
-
-  TEST: In the "Play" tab, after a user selects "All" or a category,
-  one question at a time is displayed, the user is allowed to answer
-  and shown whether they were correct or not. 
-  '''
 
 
     return app
