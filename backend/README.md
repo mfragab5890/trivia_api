@@ -104,16 +104,16 @@ The API will return three error types when requests fail:
 #### GET '/questions'
 
 ##### function:
-######Fetches all available questions with pagination currently 10 per page (default page =1) and a certain if requested (default All).
+###### Fetches all available questions with pagination currently 10 per page (default page =1) and a certain if requested (default All).
 
 ##### Request Arguments:
-######page(number:int), category(id:int) both are optional.
+###### page(number:int), category(id:int) both are optional.
 
 ##### Response body:
-######Returns an object with categories (names), success (state:bool), total_questions (total number of questions),current_category (if sent as query argument) and questions (question, answer, difficulty, category & id). 
-######sample: 
+###### Returns an object with categories (names), success (state:bool), total_questions (total number of questions),current_category (if sent as query argument) and questions (question, answer, difficulty, category & id). 
+###### sample: 
 curl -x GET http://127.0.0.1:5000/questions?category=4&page=1
-######results:
+###### results:
 ```bash
 {
   "categories": [
@@ -165,16 +165,16 @@ curl -x GET http://127.0.0.1:5000/questions?category=4&page=1
 #### GET '/categories'
 
 ##### function:
-######Fetches all available categories.
+###### Fetches all available categories.
 
 ##### Request Arguments:
-######None.
+###### None.
 
 ##### Response body:
-######Returns an object with categories (id:int & type:string), success (state:bool) and total_categories (total number of categories). 
-######sample: 
+###### Returns an object with categories (id:int & type:string), success (state:bool) and total_categories (total number of categories). 
+###### sample: 
 curl -x GET http://127.0.0.1:5000/categories
-######results:
+###### results:
 
 ```bash
 {
@@ -213,16 +213,16 @@ curl -x GET http://127.0.0.1:5000/categories
 #### DELETE '/questions/<int:question_id>'
 
 ##### function:
-######Delete a certain question with a sent id.
+###### Delete a certain question with a sent id.
 
 ##### Request Parameters:
-######id(question_id:int).
+###### id(question_id:int).
 
 ##### Response body:
-######Returns an object with current_questions (question, answer, difficulty, category & id), success (state:bool), deleted_question(id of deleted question) and total_questions (total number of questions after delete). 
-######sample: 
+###### Returns an object with current_questions (question, answer, difficulty, category & id), success (state:bool), deleted_question(id of deleted question) and total_questions (total number of questions after delete). 
+###### sample: 
 curl -X DELETE http://127.0.0.1:5000/questions/2 -H "Content-Type: application/json"
-######results:
+###### results:
 
 ```bash
 {
@@ -308,17 +308,17 @@ curl -X DELETE http://127.0.0.1:5000/questions/2 -H "Content-Type: application/j
 #### POST '/questions'
 
 ##### function:
-######Add a new question.
+###### Add a new question.
 
 ##### Request Parameters:
-######question (string), answer (string), difficulty (int), category (category_id:int).
+###### question (string), answer (string), difficulty (int), category (category_id:int).
 
 ##### Response body:
-######Returns an object with created (question_id:int), success (state:bool), total_questions (total number of questions) and questions (question, answer, difficulty, category & id). 
-######sample: 
+###### Returns an object with created (question_id:int), success (state:bool), total_questions (total number of questions) and questions (question, answer, difficulty, category & id). 
+###### sample: 
 curl -X POST http://127.0.0.1:5000/questions -H "Content-Type: application/json" -d "{\"
 question\": \"the question\", \"answer\": \"the answer\", \"difficulty\": 5, \"category\": 7}"
-######results:
+###### results:
 ```bash
 {
   "created": 26,
@@ -403,17 +403,17 @@ question\": \"the question\", \"answer\": \"the answer\", \"difficulty\": 5, \"c
 #### POST '/questions/search'
 
 ##### function:
-######Search any questions for whom the search term is a substring of the question.
+###### Search any questions for whom the search term is a substring of the question.
 
 ##### Request Parameters:
-######searchTerm(string).
+###### searchTerm(string).
 
 ##### Response body:
-######Returns an object with search_term (searchTerm:string), success (state:bool), total_questions (total number of questions) and questions (question, answer, difficulty, category & id). 
-######sample: 
+###### Returns an object with search_term (searchTerm:string), success (state:bool), total_questions (total number of questions) and questions (question, answer, difficulty, category & id). 
+###### sample: 
 curl -X POST http://127.0.0.1:5000/questions/search -H "Content-Type: application/json"
 -d "{\"searchTerm\": \"a\"}"
-######results:
+###### results:
 ```bash
 {
   "questions": [
@@ -498,16 +498,16 @@ curl -X POST http://127.0.0.1:5000/questions/search -H "Content-Type: applicatio
 #### POST '/category/questions'
 
 ##### function:
-######Fetches all available questions of a certain category with pagination currently 10 per page (default page =1).
+###### Fetches all available questions of a certain category with pagination currently 10 per page (default page =1).
 
 ##### Request Parameters:
-######category(id:int).
+###### category(id:int).
 
 ##### Response body:
-######Returns an object with categories (names), success (state:bool), total_questions (total number of questions),current_category (type) and questions (question, answer, difficulty, category & id). 
-######sample: 
+###### Returns an object with categories (names), success (state:bool), total_questions (total number of questions),current_category (type) and questions (question, answer, difficulty, category & id). 
+###### sample: 
 curl -x GET http://127.0.0.1:5000/questions?category=4&page=1
-######results:
+###### results:
 ```bash
 {
   "categories": [
@@ -560,17 +560,17 @@ curl -x GET http://127.0.0.1:5000/questions?category=4&page=1
 #### POST '/category/quiz/questions'
 
 ##### function:
-######send a question to client based on a certain categories or All categories on condition that a question is not repeated based on previous questions.
+###### send a question to client based on a certain categories or All categories on condition that a question is not repeated based on previous questions.
 
 ##### Request Parameters:
-######category(id:int),previuosQuestions(array).
+###### category(id:int),previuosQuestions(array).
 
 ##### Response body:
-######Returns an object with success (state:bool), total_category_questions (total number of questions on selected category),current_category (type) and question (question, answer, difficulty, category & id). 
-######sample: 
+###### Returns an object with success (state:bool), total_category_questions (total number of questions on selected category),current_category (type) and question (question, answer, difficulty, category & id). 
+###### sample: 
 curl -X POST http://127.0.0.1:5000/category/quiz/questions -H "Content-Type: application
 /json" -d "{\"category\":1, \"previous_questions\":\"[20,21]\"}"
-######results:
+###### results:
 ```bash
 {
   "current_category": "Science",
