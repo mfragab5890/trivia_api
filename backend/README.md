@@ -560,10 +560,10 @@ curl -x GET http://127.0.0.1:5000/questions?category=4&page=1
 #### POST '/category/quiz/questions'
 
 ##### function:
-######send a question to client based on a certain categories or All categories on condition that a question is not repeated.
+######send a question to client based on a certain categories or All categories on condition that a question is not repeated based on previous questions.
 
 ##### Request Parameters:
-######category(id:int),previuos_questions(array).
+######category(id:int),previuosQuestions(array).
 
 ##### Response body:
 ######Returns an object with success (state:bool), total_category_questions (total number of questions on selected category),current_category (type) and question (question, answer, difficulty, category & id). 

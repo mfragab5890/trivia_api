@@ -41,15 +41,15 @@ class TriviaTestCase(unittest.TestCase):
             'category': 10
         }
         self.quiz_1 = {
-            'previous_question':[20],
+            'previousQuestions':[20],
             'category': 1
         }
         self.quiz_2 = {
-            'previous_question': [ 20 ],
+            'previousQuestions': [ 20 ],
             'category': 10
         }
         self.quiz_3 = {
-            'previous_question': [ 20 ],
+            'previousQuestions': [ 20 ],
             'category': 'All'
         }
 

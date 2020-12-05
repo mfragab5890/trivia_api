@@ -251,7 +251,7 @@ def create_app(test_config=None):
         # check if category & previous questions is sent in request
         body = request.get_json()
         category = body.get('category', None)
-        previous_questions = body.get('previous_questions', [])
+        previous_questions = body.get('previousQuestions', [])
 
         if category is not None:
             if category != 'All':
